@@ -240,7 +240,7 @@ namespace DotSpatial.Projections
         public double[] Affine(double[] points, double[] koeff)
         {
             double nx, ny;
-            for (int i = 0; i <= points.Length * 2; i += 2)
+            for (int i = 0; i < points.Length; i += 2)
             {
                 nx = koeff[0] * points[i] + koeff[1] * points[i + 1] + koeff[2];
                 ny = koeff[3] * points[i] + koeff[4] * points[i + 1] + koeff[5];
