@@ -45,6 +45,11 @@ namespace DotSpatial.Projections
             DotSpatial.Projections.Reproject.ReprojectPoints(_xy, _z, _sproj, _tproj, 0, point_count);
         }
 
+        public MyGeometryConverter()
+        {
+            //
+        }
+
         public MyGeometryConverter(SqlGeometry ngeom, string sproj, string tproj)
         {
             this._geom = ngeom;
@@ -252,15 +257,17 @@ namespace DotSpatial.Projections
 
         public double[] ReAffine(double[] points, double[] koeff)
         {
-            double k, kx, ky;
+            double k, kx, ky, nx, ny;
             k  = koeff[0] * koeff[4] - koeff[1] * koeff[3];
             kx = koeff[1] * koeff[5] - koeff[2] * koeff[4];
             ky = koeff[0] * koeff[5] - koeff[2] * koeff[3];
 
             for (int i = 0; i < points.Length; i += 2)
             {
-                points[i] = (koeff[4] * points[i] - koeff[1] * points[i + 1] + kx) / k;
-                points[i + 1] = -1 * (koeff[3] * points[i] - koeff[0] * points[i + 1] + ky) / k;
+                nx = (koeff[4] * points[i] - koeff[1] * points[i + 1] + kx) / k;
+                ny = -1 * (koeff[3] * points[i] - koeff[0] * points[i + 1] + ky) / k;
+                points[i] = nx;
+                points[i + 1] = ny;
             }
             return points;
         }
